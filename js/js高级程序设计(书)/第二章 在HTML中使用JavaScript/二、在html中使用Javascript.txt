@@ -1,0 +1,218 @@
+二、<script>元素
+
+1、<script>六元素
+
+ （1）async：表示立即下载脚本。只对外部脚本文件有效。
+ （2）charset（少用）：表示通过src属性指定的代码的字符集。
+ （3）defer：表示脚本可以延迟到文档完全被解析和显示后再执行。只对外部脚本文件有效。
+ （4）language（已废弃）：表示编写代码使用的脚本语言（如：JavaScript）。
+ （5）src：表示包含要执行代码的外部文件。
+ （6）type：language的替代属性，默认text/javascript。
+
+2、使用<script>元素的方式有两种：
+   
+ （1）直接在页面中嵌入JavaScript代码
+	在页面内嵌入JavaScript代码时。只须为<script>指定type属性
+        在使用<script>嵌入代码时，不能在代码中的任何地方出现“</script>”字符串，否则出错!
+    因为按照解析嵌入式代码规则，当浏览器遇到字符串“</script>”时，就会认为那是结束的</script>标签。
+    通过转义字符“\”可以解决这个问题。
+
+	<script type="text/javascript">
+		function sayScript(){
+			alert("<\/script>");
+		}
+	</script>
+
+ （2）包含外部JavaScript文件
+
+	<script type="text/javascript" src="./out.js"></script>
+	<script type="text/javascript" src="http://www.somewhere.com/afile.js"></script>
+	带有src属性的<script>元素不应该在<script>和</script>标签之间再包含额外的JavaScript代码，因为会被忽略。
+
+	在XHTML文档中，可以这样写：
+
+	<script type="text/javascript" src="./out.js" />	
+
+	但是，不能在HTML文档中使用这种语法，原因是这种语法不符合HTML规范，而且也得不到某些浏览器（尤其是IE）的正确解析。
+  
+  无论如何包含代码，只要不存在defer 和 async 属性，浏览器都会按照<script>元素在页面中出现的先后顺序对它们进行解析。
+  第一个<script>、第二个<script>、第三个<script>...
+  
+3、标签的位置
+	
+	（1）传统：所有<script>元素放在页面的<head>元素中
+
+		<html>
+		   <head>
+		      <title></title>
+		      <meta charset="utf-8">
+		      <script type="text/javascript" src="./out.js"></script>
+		   </head>
+		   <body>
+			你好！
+		   </body>
+		</html>
+		
+	     先全部加载完JavaScript代码,再开始<body>呈现内容
+	     缺点：浏览器呈现页面时出现明显的延迟。
+
+	（2）现代：一般把JavaScript代码引用放在<body>元素页面内容的后面
+
+		<html>
+		   <head>
+		      <title></title>
+		      <meta charset="utf-8">
+		   </head>
+		   <body>
+			你好！
+		        <script type="text/javascript" src="./out.js"></script>
+		   </body>
+		</html>
+
+	     优点：再解析JavaScript代码之前，页面的内容将完全呈现在浏览器中。
+
+4、延迟脚本
+
+	defer属性：立即下载，延迟执行。即脚本会延迟到整个页面都解析完毕后再运行。
+	 	   HTML5规定：第一个延迟脚本会先于第二个延迟脚本执行。
+
+		<html>
+		   <head>
+		      <title></title>
+		      <meta charset="utf-8">
+		      <script type="text/javascript"  defer="defer" src="./out1.js"></script>
+		      <script type="text/javascript"  defer="defer" src="./out2.js"></script>
+		   </head>
+		   <body>
+			你好！
+		   </body>
+		</html>
+
+	defer属性只适用于外部脚本文件，支持HTML5的实现会忽略给嵌入脚本设置的defer属性，因此，并非所有浏览器都支持defer属性，
+	IE 和 Firefox 3.1 是目前唯一支持defer属性的主流浏览器，其他浏览器则会忽略这个属性，不延迟脚本的执行。像平常处理一样。
+	把延迟脚本放在页面底部仍然是最好的！
+
+	在XHTML文档中，要把defer属性设计为 defer="defer"。
+
+5、异步脚本
+
+	async属性：立即下载和执行脚本，同时异步加载页面和其他内容。不要在加载期间修改DOM。
+	与defer属性类似，但标记为async的脚本不保证按照他们的先后顺序执行。
+	第二个延迟脚本可能会先于第一个延迟脚本执行。
+	
+		<html>
+		   <head>
+		      <title></title>
+		      <meta charset="utf-8">
+		      <script type="text/javascript"  defer="defer" src="./out1.js"></script>
+		      <script type="text/javascript"  defer="defer" src="./out2.js"></script>
+		   </head>
+		   <body>
+			你好！
+		   </body>
+		</html>
+
+	在XHTML文档中，要把defer属性设计为 asyncr="async"。
+
+6、在XHTML中的用法
+	
+	下面代码在html中有效，但在xhtml中无效。小于号（<）在xhtml中将被当作开始一个新的标签来解析。
+	但作为标签，小于号后面不能跟空格，因此导致语法错误。
+	
+	     <script type="text/javascript">
+		function compare(a,b){
+			if(a < b){
+				alert(b);
+			}
+			if(a > b){
+				alert(a);
+			}
+			if(a < b){
+				alert("a=b");
+			}
+		}
+	    </script>
+
+	避免在xhtml中出现语法错误，有两种方法：
+	
+	（1）用相应的html实体（&lt;）替代代码中所有的小于号（<）
+		
+	     <script type="text/javascript">
+		function compare(a,b){
+			if(a &lt; b){
+				alert(b);
+			}
+			if(a > b){
+				alert(a);
+			}
+			if(a < b){
+				alert("a=b");
+			}
+		}
+	    </script>
+
+	（2）用一个CData片段来包含JavaScript代码，在xhtml中，CData是文档中的一个特殊区域，这个区域可以包含不需要解析的任意格式的文本。
+
+	     <script type="text/javascript"><![CDATA[
+		function compare(a,b){
+			if(a < b){
+				alert(b);
+			}
+			if(a > b){
+				alert(a);
+			}
+			if(a < b){
+				alert("a=b");
+			}
+		}
+	      ]]></script>
+
+	在兼容xhtml浏览器中可以用上面的方式，但不少浏览器不兼容xhtml，因而不支持CData片段。再使用JavaScript注释CData标记注释掉就可以。
+
+	<script type="text/javascript">
+	   // <![CDATA[
+		function compare(a,b){
+			if(a < b){
+				alert(b);
+			}
+			if(a > b){
+				alert(a);
+			}
+			if(a < b){
+				alert("a=b");
+			}
+		}
+	   // ]]>
+	</script>
+
+7、文档模式
+
+	触发标准模式:
+
+	<!-- HTML 4.01 严格型 -->
+	<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+	<!-- XHTML 1.0 严格型 -->
+	<!DOCTYPE htmlPUBLIC "-//W3C//DTD XHTML 1.0Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+	<!-- HTML5 -->
+	<!DOCTYPE html>
+
+	触发准标准模式:
+
+	<!-- HTML 4.01 过渡型 -->
+	<!DOCTYPE HTMLPUBLIC "-//W3C//DTD HTML 4.01Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+	<!-- HTML 4.01 框架集型 -->
+	<!DOCTYPE HTMLPUBLIC "-//W3C//DTD HTML 4.01Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+
+	<!-- XHTML 1.0 过渡型 -->
+	<!DOCTYPE htmlPUBLIC "-//W3C//DTD XHTML 1.0Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+	<!-- XHTML 1.0 框架集型 -->
+	<!DOCTYPE htmlPUBLIC "-//W3C//DTD XHTML 1.0Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+
+
+
+

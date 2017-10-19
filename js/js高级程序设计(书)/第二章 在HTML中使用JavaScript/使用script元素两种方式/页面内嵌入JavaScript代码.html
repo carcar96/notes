@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>在页面内嵌入JavaScript代码</title>
+	</head>
+	<body>
+		在页面内嵌入JavaScript代码
+		<div>
+			<br><input type="button" value="点击弹出“Hi！”" name="" onclick="sayHi()"/>
+			<input type="button" value="点击弹出“</script>”" name="" onclick="sayScript()"/>
+		</div>
+		<!--在页面内嵌入JavaScript代码时。只须为<script>指定type属性-->
+		<script type="text/javascript">
+			function sayHi(){
+				alert("Hi!");
+			}
+		</script>		
+			
+		<!-- <script type="text/javascript">
+				function sayHi(){
+					alert("Hi!");
+				}
+			 </script> -->
+		
+		<!-- 在使用<script>嵌入代码时，不能在代码中的任何地方出现“</script>”字符串，否则出错!
+			 因为按照解析嵌入式代码规则，当浏览器遇到字符串“</script>”时，就会认为那是结束的</script>标签。
+			 通过转义字符“\”可以解决这个问题。 -->	
+			 
+		<script type="text/javascript">
+			function sayScript(){
+				alert("<\/script>");
+			}
+		</script>	 
+	</body>
+</html>
