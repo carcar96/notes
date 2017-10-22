@@ -1,20 +1,5 @@
 ﻿#web开发学习笔记
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###命令
 git init
 git add README.md
