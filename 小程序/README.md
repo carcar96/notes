@@ -9,3 +9,6 @@
 
 ### 3.输入组件被弹出的手机键盘挡住
 - 解决方案：使用input的属性cursor-spacing，指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离。
+
+### 4.地图组件map中marker 上的气泡 label属性(bgColor等)用“#fff”3个字母不能改变颜色
+- 解决方案：必须使用“#ffffff”6个字母才行
