@@ -12,8 +12,8 @@ print(len(str))
 
 #字符串切片：获取字符串中的第a个到第b个，但不包括第b个，c是步长（默认1）   str[a:b:c]
 print str[2:4]  #sh
-print str[2:-1] #sh
-print str[2:]   #shi
+print str[2:-1] #shiasddsc
+print str[2:]   #shiasddscv
 print str[2:-1:2] #sisdc
 
 #字符串倒序
@@ -26,7 +26,7 @@ print str.find("gg") #-1
 
 #统计字符串中，某字符出现的次数
 print str.count("s") #3
-print str.find("gg") #-1
+print str.count("gg") #0
 
 #字符串替换
 print str.replace("s","S")  #woShiaSddScv
